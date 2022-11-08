@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { Foundation, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import HomeScreen from './src/screens/HomeScreen/HomeScreen'
+import OrderService from './src/screens/OrderService/OrderService'
+import { StatusBar } from 'react-native'
+import { OrderProvider } from './src/contexts/OrderContext'
 
+const Tab = createBottomTabNavigator();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <StatusBar
+        backgroundColor="white"
+        barStyle="dark-content"
+      />
+      <OrderProvider>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen name="Home" component={HomeScreen} options={{
+            tabBarIcon: () => (<Foundation name="home" size={24} color="black" />)
+          }} />
+          <Tab.Screen name="Solicitar Entrega" component={OrderService} options={{
+            tabBarIcon: () => (<MaterialCommunityIcons name="drone" size={24} color="black" />)
+          }} />
+        </Tab.Navigator>
+      </OrderProvider>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
